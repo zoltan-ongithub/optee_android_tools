@@ -1,4 +1,7 @@
 #!/bin/bash
+#
+# Author: Zoltan Kuscsik <zoltan.kuscsik@linaro.org>
+#
 
 COMPILER_PATH=$PWD/gcc-linaro-4.9-2015.05-x86_64_aarch64-linux-gnu/bin
 CURRENT_BUILD_PATH=$(dirname $(realpath $0))
@@ -30,14 +33,22 @@ fi
 if [ "$1" == "hikey" ]; then
   set_optee_os_hikey_vars
 else
-  echo "Missing platform argument from ./$0 <platform> <ta_project_list_file>"
-  echo "Valid arguments:"
-  echo "  hikey "
+  echo "#"
+  echo "# ERROR: Missing platform argument from ./$(basename $0) <platform> <ta_project_list_file>"
+  echo "#"
+  echo "#       Valid platforms:"
+  echo "#"
+  echo "#           * hikey "
+  echo "#"
+  echo "#        Example : "
+  echo "#"
+  echo "#        $ ./build_ta.sh hikey optee/android_optee_examples.cfg "
+  echo "#"
   exit 1
 fi
 
 if  [ -z "$2" ]; then
-  echo "Missing TA list from ./$0 <platform> <ta_project_list_file> "
+  echo "Missing TA list from ./$(basename $0) <platform> <ta_project_list_file> "
   exit 1
 fi
 
