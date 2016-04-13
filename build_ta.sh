@@ -82,7 +82,7 @@ export TA_DEV_KIT_DIR=$CURRENT_BUILD_PATH/$OPTEE_OS_DIR/$OPTEE_OS_DEV_KIT_PATH
 
 for ta_target in $ANDROID_OPTEE_PROJECT_LIST
 do
-    make  -C $ANDROID_BUILD_TOP/$ta_target
+    make  -C $ANDROID_BUILD_TOP/$ta_target O=$ANDROID_BUILD_TOP/$ta_target
     android_mk="$ANDROID_BUILD_TOP/$ta_target/Android.mk"
     if [ ! -f "$android_mk" ]; then
       echo "ERROR: Android.mk does not exists in $ANDROID_BUILD_TOP/$ta_target"
