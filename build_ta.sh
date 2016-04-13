@@ -3,13 +3,13 @@
 # Author: Zoltan Kuscsik <zoltan.kuscsik@linaro.org>
 #
 
-COMPILER_PATH=$PWD/gcc-linaro-4.9-2015.05-x86_64_aarch64-linux-gnu/bin
+COMPILER_PATH=$CURRENT_BUILD_PATH/gcc-linaro-4.9-2015.05-x86_64_aarch64-linux-gnu/bin
 CURRENT_BUILD_PATH=$(dirname $(realpath $0))
 
 NUMBER_OF_CPU_CORES=`grep -c ^processor /proc/cpuinfo`
 OPTEE_OS_DIR="optee_os"
 
-export PATH=COMPILER_PATH:$PATH
+export PATH=$COMPILER_PATH:$PATH
 
 set_optee_os_hikey_vars() {
   export PLATFORM=hikey
