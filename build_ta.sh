@@ -3,8 +3,8 @@
 # Author: Zoltan Kuscsik <zoltan.kuscsik@linaro.org>
 #
 
-COMPILER_PATH=$CURRENT_BUILD_PATH/gcc-linaro-4.9-2015.05-x86_64_aarch64-linux-gnu/bin
 CURRENT_BUILD_PATH=$(dirname $(realpath $0))
+COMPILER_PATH=$CURRENT_BUILD_PATH/gcc-linaro-4.9-2015.05-x86_64_aarch64-linux-gnu/bin
 
 NUMBER_OF_CPU_CORES=`grep -c ^processor /proc/cpuinfo`
 OPTEE_OS_DIR="optee_os"
