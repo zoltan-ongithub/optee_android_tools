@@ -1,0 +1,4 @@
+gcc-linaro-4.9-2015.05-x86_64_aarch64-linux-gnu.tar.xz
+gcc-linaro-4.9-2015.05-x86_64_aarch64-linux-gnu/
+optee_os/
+toolchain.stamp
