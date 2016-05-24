@@ -4,12 +4,10 @@
 #
 
 CURRENT_BUILD_PATH=$(dirname $(realpath $0))
-COMPILER_PATH=$CURRENT_BUILD_PATH/gcc-linaro-4.9-2015.05-x86_64_aarch64-linux-gnu/bin
 
 NUMBER_OF_CPU_CORES=`grep -c ^processor /proc/cpuinfo`
 OPTEE_OS_DIR="optee_os"
 
-export PATH=$COMPILER_PATH:$PATH
 
 set_optee_os_hikey_vars() {
   export PLATFORM=hikey
@@ -17,6 +15,20 @@ set_optee_os_hikey_vars() {
   ARM64_core=y
   TA_TARGETS=ta_arm64
   OPTEE_OS_DEV_KIT_PATH="out/arm-plat-hikey/export-ta_arm64"
+  COMPILER_PATH=$CURRENT_BUILD_PATH/gcc-linaro-4.9-2015.05-x86_64_aarch64-linux-gnu/bin
+}
+
+set_optee_os_hikey32_vars() {
+  export PLATFORM=hikey
+  export CROSS_COMPILE=arm-linux-gnueabi-
+  TA_TARGETS=ta_arm32
+  export CFG_TA_FLOAT_SUPPORT=n
+  export CFG_WITH_VFP=n
+  export CFG_CRYPTO_SHA256=n
+  export CFG_CRYPTO_SHA1_ARM32_CE=n
+  OPTEE_OS_DEV_KIT_PATH="out/arm-plat-hikey/export-ta_arm32"
+  COMPILER_PATH=$CURRENT_BUILD_PATH/gcc-linaro-5.3-2016.02-x86_64_arm-linux-gnueabi/bin
+  echo $COMPILER_PATH
 }
 
 if [ -z "$ANDROID_BUILD_TOP" ]; then
@@ -32,6 +44,8 @@ fi
 ###########################################################
 if [ "$1" == "hikey" ]; then
   set_optee_os_hikey_vars
+elif [ "$1" == "hikey32" ]; then
+  set_optee_os_hikey32_vars
 else
   echo "#"
   echo "# ERROR: Missing platform argument from ./$(basename $0) <platform> <ta_project_list_file>"
@@ -47,6 +61,7 @@ else
   exit 1
 fi
 
+export PATH=$COMPILER_PATH:$PATH
 if  [ -z "$2" ]; then
   echo "Missing TA list from ./$(basename $0) <platform> <ta_project_list_file> "
   exit 1
