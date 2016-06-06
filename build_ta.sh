@@ -3,6 +3,8 @@
 # Author: Zoltan Kuscsik <zoltan.kuscsik@linaro.org>
 #
 
+OPTEE_LOGLEVEL=1
+
 CURRENT_BUILD_PATH=$(dirname $(realpath $0))
 
 NUMBER_OF_CPU_CORES=`grep -c ^processor /proc/cpuinfo`
@@ -87,17 +89,18 @@ fi
 ##########################################################
 make  -C $CURRENT_BUILD_PATH/$OPTEE_OS_DIR -j$NUMBER_OF_CPU_CORES \
       ta-targets=$TA_TARGETS \
-      CFG_ARM64_core=$ARM64_core
+      CFG_ARM64_core=$ARM64_core \
+      CFG_TEE_CORE_LOG_LEVEL=$OPTEE_LOGLEVEL \
+      CFG_LOG_SYSLOG=y
 
 ##########################################################
 # Build trusted applications
 ##########################################################
 
 export TA_DEV_KIT_DIR=$CURRENT_BUILD_PATH/$OPTEE_OS_DIR/$OPTEE_OS_DEV_KIT_PATH
-
 for ta_target in $ANDROID_OPTEE_PROJECT_LIST
 do
-    make  -C $ANDROID_BUILD_TOP/$ta_target O=$ANDROID_BUILD_TOP/$ta_target
+    make  -C $ANDROID_BUILD_TOP/$ta_target O=$ANDROID_BUILD_TOP/$ta_target  CFG_TEE_TA_LOG_LEVEL=$OPTEE_LOGLEVEL V=1 CFG_LOG_SYSLOG=y
     android_mk="$ANDROID_BUILD_TOP/$ta_target/Android.mk"
     if [ ! -f "$android_mk" ]; then
       echo "ERROR: Android.mk does not exists in $ANDROID_BUILD_TOP/$ta_target"
